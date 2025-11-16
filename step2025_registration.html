@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEP 2025 - Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #ffffff;
+            padding: 60px 40px 50px;
+            text-align: center;
+            border-bottom: 1px solid #e9ecef;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #FF6B35 0%, #4ECDC4 50%, #45B7D1 100%);
+            border-radius: 2px;
+        }
+
+        .logo-section {
+            position: relative;
+        }
+
+        .logo {
+            max-width: 280px;
+            height: auto;
+            margin: 0 auto 28px;
+            display: block;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+        }
+
+        .header h1 {
+            font-size: 2.4em;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+        }
+
+        .header .tagline {
+            font-size: 1.1em;
+            color: #495057;
+            font-weight: 400;
+            margin-bottom: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .header .year {
+            font-size: 0.9em;
+            color: #868e96;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 8px;
+        }
+
+        .form-container {
+            padding: 60px 60px 70px;
+            background: linear-gradient(to bottom, #ffffff 0%, #fafbfc 100%);
+        }
+
+        .form-section-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 30px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f1f3f5;
+        }
+
+        .form-group {
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #212529;
+            font-weight: 500;
+            font-size: 0.95em;
+            letter-spacing: 0.2px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px 18px;
+            border: 1.5px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 0.98em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            background: #ffffff;
+            color: #212529;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .form-group input:hover,
+        .form-group select:hover,
+        .form-group textarea:hover {
+            border-color: #4ECDC4;
+            box-shadow: 0 2px 8px rgba(78, 205, 196, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4ECDC4;
+            box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.12), 0 4px 12px rgba(78, 205, 196, 0.15);
+            background: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23495057' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 16px 18px;
+            border: 1.5px solid #e1e5e9;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .radio-option::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            background: linear-gradient(90deg, #FF6B35 0%, #4ECDC4 100%);
+            transition: width 0.3s ease;
+        }
+
+        .radio-option:hover {
+            border-color: #4ECDC4;
+            background-color: #f8fffe;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.15);
+        }
+
+        .radio-option:hover::before {
+            width: 4px;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #4ECDC4;
+        }
+
+        .radio-option label {
+            margin: 0;
+            cursor: pointer;
+            flex: 1;
+            font-weight: 400;
+            color: #495057;
+            font-size: 0.95em;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            font-weight: 500;
+            color: #212529;
+        }
+
+        .radio-option:has(input[type="radio"]:checked) {
+            border-color: #4ECDC4;
+            background-color: #f0fdfc;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.12), 0 4px 12px rgba(78, 205, 196, 0.15);
+        }
+
+        .radio-option:has(input[type="radio"]:checked)::before {
+            width: 4px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px 32px;
+            background: linear-gradient(135deg, #212529 0%, #343a40 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.08em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 40px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit-btn:disabled {
+            background: #adb5bd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .message {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            display: none;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .message.success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+            display: block;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+            display: block;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4ECDC4;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 12px;
+            }
+
+            .header {
+                padding: 40px 30px 30px;
+            }
+
+            .header h1 {
+                font-size: 1.9em;
+            }
+
+            .header .tagline {
+                font-size: 1em;
+            }
+
+            .form-container {
+                padding: 40px 30px;
+            }
+
+            .logo {
+                max-width: 240px;
+            }
+
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 20px 25px;
+            }
+
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 12px 14px;
+                font-size: 0.95em;
+            }
+
+            .radio-option {
+                padding: 12px 14px;
+            }
+
+            .logo {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-section">
+                <img src="step.png" alt="STEP 2025 Logo" class="logo" />
+                <h1>STEP 2025</h1>
+                <p class="tagline">Shaping Sustainable Engineering Academics</p>
+                <p class="year">2025</p>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <div id="message" class="message"></div>
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; color: #666;">Processing your registration...</p>
+            </div>
+
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactNumber">Contact Number *</label>
+                    <input type="tel" id="contactNumber" name="contactNumber" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="affiliation">Affiliation/Institution *</label>
+                    <input type="text" id="affiliation" name="affiliation" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="designation">Designation *</label>
+                    <select id="designation" name="designation" required>
+                        <option value="">Select Designation</option>
+                        <option value="Student">Student</option>
+                        <option value="Researcher">Researcher</option>
+                        <option value="Academic Faculty">Academic Faculty</option>
+                        <option value="Industry Professional">Industry Professional</option>
+                        <option value="Guest">Guest</option>
+                        <option value="Others">Others (please specify)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="othersSpecifyGroup" style="display: none;">
+                    <label for="othersSpecify">Please Specify *</label>
+                    <input type="text" id="othersSpecify" name="othersSpecify">
+                </div>
+
+                <div class="form-group" id="eventParticipationGroup">
+                    <label>Event Participation *</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="poster" name="eventParticipation" value="Poster Presentation">
+                            <label for="poster">Poster Presentation</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="panel" name="eventParticipation" value="Panel Discussion">
+                            <label for="panel">Panel Discussion</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="evaluator" name="eventParticipation" value="Evaluator">
+                            <label for="evaluator">Evaluator</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="caseChallenge" name="eventParticipation" value="Case Challenge">
+                            <label for="caseChallenge">Case Challenge</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group hidden" id="posterTitleGroup">
+                    <label for="posterTitle">Title of the Poster *</label>
+                    <input type="text" id="posterTitle" name="posterTitle">
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Register Now</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'https://zinvos.tessst.com/api/';
+        
+        const designationSelect = document.getElementById('designation');
+        const othersSpecifyGroup = document.getElementById('othersSpecifyGroup');
+        const eventParticipationGroup = document.getElementById('eventParticipationGroup');
+        const posterTitleGroup = document.getElementById('posterTitleGroup');
+        const posterTitleInput = document.getElementById('posterTitle');
+        const form = document.getElementById('registrationForm');
+        const messageDiv = document.getElementById('message');
+        const loadingDiv = document.getElementById('loading');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Handle designation change
+        designationSelect.addEventListener('change', function() {
+            if (this.value === 'Others') {
+                othersSpecifyGroup.style.display = 'block';
+                document.getElementById('othersSpecify').required = true;
+            } else {
+                othersSpecifyGroup.style.display = 'none';
+                document.getElementById('othersSpecify').required = false;
+            }
+
+            // Show/hide event participation for Guest
+            if (this.value === 'Guest') {
+                eventParticipationGroup.style.display = 'none';
+                // Clear any selected event participation
+                document.querySelectorAll('input[name="eventParticipation"]').forEach(radio => {
+                    radio.checked = false;
+                    radio.required = false;
+                });
+            } else {
+                eventParticipationGroup.style.display = 'block';
+                document.querySelectorAll('input[name="eventParticipation"]').forEach(radio => {
+                    radio.required = true;
+                });
+            }
+        });
+
+        // Handle event participation change
+        document.querySelectorAll('input[name="eventParticipation"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'Poster Presentation') {
+                    posterTitleGroup.classList.remove('hidden');
+                    posterTitleInput.required = true;
+                } else {
+                    posterTitleGroup.classList.add('hidden');
+                    posterTitleInput.required = false;
+                    posterTitleInput.value = '';
+                }
+            });
+        });
+
+        // Handle form submission
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Hide previous messages
+            messageDiv.className = 'message';
+            messageDiv.textContent = '';
+            
+            // Show loading
+            loadingDiv.classList.add('active');
+            submitBtn.disabled = true;
+
+            // Collect form data
+            const formData = {
+                full_name: document.getElementById('fullName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                contact_number: document.getElementById('contactNumber').value.trim(),
+                affiliation: document.getElementById('affiliation').value.trim(),
+                designation: designationSelect.value,
+                event_participation: document.querySelector('input[name="eventParticipation"]:checked')?.value || null,
+                poster_title: posterTitleInput.value.trim() || null,
+                others_specify: document.getElementById('othersSpecify').value.trim() || null
+            };
+
+            // Handle designation for "Others"
+            if (formData.designation === 'Others') {
+                formData.designation = formData.others_specify;
+            }
+
+            try {
+                const response = await fetch(API_BASE_URL + 'step2025/register/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Success
+                    messageDiv.className = 'message success';
+                    messageDiv.textContent = `Registration successful! Your registration number is ${data.reg_no}. Please check your email for confirmation and QR code.`;
+                    form.reset();
+                    posterTitleGroup.classList.add('hidden');
+                    othersSpecifyGroup.style.display = 'none';
+                    eventParticipationGroup.style.display = 'block';
+                } else {
+                    // Error
+                    messageDiv.className = 'message error';
+                    messageDiv.textContent = data.error || data.message || 'Registration failed. Please try again.';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                messageDiv.className = 'message error';
+                messageDiv.textContent = 'Network error. Please check your connection and try again.';
+            } finally {
+                loadingDiv.classList.remove('active');
+                submitBtn.disabled = false;
+                
+                // Scroll to message
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    </script>
+</body>
+</html>
+
