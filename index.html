@@ -160,6 +160,62 @@
             padding-right: 40px;
         }
 
+        .phone-input-wrapper {
+            display: flex;
+            align-items: stretch;
+            border: 1.5px solid #e1e5e9;
+            border-radius: 10px;
+            background: #ffffff;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .phone-input-wrapper:hover {
+            border-color: #4ECDC4;
+            box-shadow: 0 2px 8px rgba(78, 205, 196, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .phone-input-wrapper:focus-within {
+            border-color: #4ECDC4;
+            box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.12), 0 4px 12px rgba(78, 205, 196, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .phone-prefix {
+            display: flex;
+            align-items: center;
+            padding: 16px 12px 16px 18px;
+            background: #f8f9fa;
+            color: #495057;
+            font-weight: 500;
+            font-size: 0.98em;
+            border-right: 1.5px solid #e1e5e9;
+            white-space: nowrap;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .phone-input-wrapper input[type="tel"] {
+            flex: 1;
+            border: none;
+            padding: 16px 18px;
+            border-radius: 0;
+            box-shadow: none;
+            background: transparent;
+        }
+
+        .phone-input-wrapper input[type="tel"]:focus {
+            outline: none;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .phone-input-wrapper input[type="tel"]:hover {
+            transform: none;
+        }
+
         .radio-group {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -393,6 +449,15 @@
                 font-size: 0.95em;
             }
 
+            .phone-prefix {
+                padding: 12px 10px 12px 14px;
+                font-size: 0.95em;
+            }
+
+            .phone-input-wrapper input[type="tel"] {
+                padding: 12px 14px;
+            }
+
             .radio-option {
                 padding: 12px 14px;
             }
@@ -434,7 +499,11 @@
 
                 <div class="form-group">
                     <label for="contactNumber">Contact Number *</label>
-                    <input type="tel" id="contactNumber" name="contactNumber" required>
+                    <div class="phone-input-wrapper">
+                        <span class="phone-prefix">+968</span>
+                        <input type="tel" id="contactNumber" name="contactNumber" placeholder="91234567" required pattern="[0-9]{8,8}" maxlength="8">
+                    </div>
+                    <small style="display: block; margin-top: 6px; color: #6c757d; font-size: 0.85em;">Enter 8-digit mobile number (e.g., 91234567)</small>
                 </div>
 
                 <div class="form-group">
@@ -504,6 +573,30 @@
         const messageDiv = document.getElementById('message');
         const loadingDiv = document.getElementById('loading');
         const submitBtn = document.getElementById('submitBtn');
+        const contactNumberInput = document.getElementById('contactNumber');
+
+        // Restrict phone input to numbers only
+        contactNumberInput.addEventListener('input', function(e) {
+            // Remove any non-digit characters
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Prevent non-numeric input
+        contactNumberInput.addEventListener('keypress', function(e) {
+            // Allow: backspace, delete, tab, escape, enter
+            if ([46, 8, 9, 27, 13].indexOf(e.keyCode) !== -1 ||
+                // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                (e.keyCode === 65 && e.ctrlKey === true) ||
+                (e.keyCode === 67 && e.ctrlKey === true) ||
+                (e.keyCode === 86 && e.ctrlKey === true) ||
+                (e.keyCode === 88 && e.ctrlKey === true)) {
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
 
         // Handle designation change
         designationSelect.addEventListener('change', function() {
@@ -558,10 +651,11 @@
             submitBtn.disabled = true;
 
             // Collect form data
+            const contactNumber = document.getElementById('contactNumber').value.trim();
             const formData = {
                 full_name: document.getElementById('fullName').value.trim(),
                 email: document.getElementById('email').value.trim(),
-                contact_number: document.getElementById('contactNumber').value.trim(),
+                contact_number: contactNumber ? '+968' + contactNumber : '', // Always include country code
                 affiliation: document.getElementById('affiliation').value.trim(),
                 designation: designationSelect.value,
                 event_participation: document.querySelector('input[name="eventParticipation"]:checked')?.value || null,
